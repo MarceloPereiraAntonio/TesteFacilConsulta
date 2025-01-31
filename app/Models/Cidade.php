@@ -16,4 +16,14 @@ class Cidade extends Model
     {
         return $this->hasMany(Medico::class);
     }
+
+    //scope 
+    public function scopeFilter($query, $request)
+    {
+        if(filled($request->nome)){
+            $query->where('nome', 'LIKE', "%{$request->nome}%");
+        }
+
+        return $query;
+    }
 }
