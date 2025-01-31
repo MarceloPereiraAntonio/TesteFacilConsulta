@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('cpf', 20)->unique();
             $table->string('celular', 20);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
