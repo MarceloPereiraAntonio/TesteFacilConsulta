@@ -78,10 +78,7 @@ POST /api/login
 ---
 
 ## 🌍 Rotas publicas Disponíveis
-> Todas as requisições **DEVEM** incluir o token JWT no header:
-> ```
-> Authorization: Bearer {TOKEN_JWT}
-> ```
+
 ### 📌 **Cidades**
 
 #### 1️⃣ **Listar**
