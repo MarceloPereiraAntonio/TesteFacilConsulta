@@ -2,64 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdatePacienteRequest;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PacienteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getPacientesByMedico(Request $request, $medico_id)
     {
-        //
+        $pacientes = Paciente::filter($request)
+            ->select(
+                'consultas.medico_id',
+                'consultas.data as data_consulta',
+                'pacientes.id', 
+                'pacientes.nome', 
+                'pacientes.cpf', 
+                'pacientes.celular',) 
+            ->join('consultas', 'consultas.paciente_id', '=', 'pacientes.id')
+            ->where('consultas.medico_id', $medico_id)
+            ->orderBy('consultas.data', 'asc')
+            ->paginate();
+        if($pacientes->isEmpty()){
+            return response()->json([], Response::HTTP_NO_CONTENT);
+        }
+        return response()->json($pacientes);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreUpdatePacienteRequest $request)
     {
-        //
+        $paciente = Paciente::create([
+            'nome' => $request->nome,
+            'cpf' => $request->cpf,
+            'celular' => $request->celular
+        ]);
+        return response()->json($paciente, Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function update(StoreUpdatePacienteRequest $request, $id)
     {
-        //
+        if(!$paciente = Paciente::find($id)){
+            return response()->json(['message' => 'Paciente não encontrado'], Response::HTTP_NOT_FOUND);
+        }
+        $paciente->update([
+            'nome' => $request->nome,
+            'celular' => $request->celular
+        ]);
+        return response()->json($paciente);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Paciente $paciente)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Paciente $paciente)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Paciente $paciente)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Paciente $paciente)
-    {
-        //
-    }
 }

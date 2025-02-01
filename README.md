@@ -1,66 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📌 API de Gestão de Consultas Médicas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 📌 Introdução
+Esta API foi desenvolvida para gerenciar **médicos, pacientes e consultas**. Os usuários podem cadastrar médicos e pacientes, agendar consultas e listar informações de forma organizada. Apenas **usuários autenticados** podem acessar os recursos protegidos.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠 Requisitos para instalar o projeto
+Você vai precisa instalar o docker, e caso ainda não tenha siga o passo a passo no site https://docs.docker.com/engine/install/
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔧 Configuração do Projeto
+1. Clone o repositório:
+   ```sh
+   https://github.com/MarceloPereiraAntonio/TesteFacilConsulta.git
+   cd seu-repositorio
+   ```
+2. Configure o arquivo **.env**:
+   ```sh
+   cp .env.example .env
+   ```
+   - Configure as variáveis de banco de dados (`DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)
+3. Rode o seguinte comando:
+   ```sh
+   ./vendor/bin/sail up -d
+   - Isso vai iniciar a instalação de todas as dependências para o projeto funcionar. 
+   ```
+4. Para facilitar os comandos do **Laravel Sail** rode o seguinte comando.
+    ```sh
+    alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)' 
+    ```
+5. Após a instalação do projeto e com todos os containers em operação rode as **migrations e seeders**:
+   ```sh
+   sail artisan migrate --seed
+   - O comando acima irá popular a base de dados.
+   ```
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🔐 Autenticação
+A API usa **JWT (JSON Web Token)** para autenticação.
+Após ter rodado as **migrations e seeders** você terá a seu dispor um usuário de teste que será ultilizado para obter seu **token JWT**
+Esses são os dados do seu usuário:
+```json
+{
+    "name": "Test User",
+    "email": "test@teste.com",
+    "password": "password"
+}
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### **1 Login do usuário**
+```http
+POST /api/login
+```
+#### 📌 Corpo da requisição:
+```json
+{
+   "email": "test@teste.com",
+    "password": "password"
+}
+```
+✅ **Retorna o token JWT:**
+```json
+{
+     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+    "token_type": "bearer",
+    "expires_in": 3600
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🌍 Rotas publicas Disponíveis
+> Todas as requisições **DEVEM** incluir o token JWT no header:
+> ```
+> Authorization: Bearer {TOKEN_JWT}
+> ```
+### 📌 **Cidades**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### 1️⃣ **Listar**
+```http
+GET /api/cidades
+```
+📌 **Parâmetro opcional:** `nome` → Filtra pelo nome.
 
-### Premium Partners
+### 📌 **Médicos**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### 2 **Listar médicos**
+```http
+GET /api/medicos
+```
+📌 **Parâmetro opcional:** `nome` → Filtra pelo nome (ignora "Dr." e "Dra.")
 
-## Contributing
+#### 3 **Listar médicos por cidade**
+```http
+GET /api/cidades/{id_cidade}/medicos
+```
+## 🔒 Rotas privadas Disponíveis
+> Todas as requisições **DEVEM** incluir o token JWT no header:
+> ```
+> Authorization: Bearer {TOKEN_JWT}
+> ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📌 **Médicos**
 
-## Code of Conduct
+#### 2 **Adicionar novo médico**
+```http
+POST /api/medicos
+```
+📌 **Corpo da requisição:**
+```json
+{
+    "medico_id": 1,
+    "paciente_id": 3,
+    "data": "2025-02-15 14:00:00"
+}
+```
+#### 2 **Agendar consulta**
+```http
+POST /api/medicos/consulta
+```
+📌 **Corpo da requisição:**
+```json
+{
+    "medico_id": 1,
+    "paciente_id": 3,
+    "data": "2025-02-15 14:00:00"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 📌 **Pacientes**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### 3 **Listar pacientes do médico**
+```http
+GET /api/medicos/{id_medico}/pacientes
+```
+📌 **Parâmetros opcionais:**
+- `apenas-agendadas=true` → Retorna apenas consultas futuras.
+- `nome=Maria` → Filtra pelo nome do paciente.
+✅ **Retorno esperado:**
+```json
+{
+    "data": [
+        {
+            "medico_id": 19,
+            "data_consulta": "2025-02-19 07:52:45",
+            "id": 14,
+            "nome": "Miss Shyanne Wilderman DDS",
+            "cpf": "602.974.637-16",
+            "celular": "1-224-561-3932"
+        }
+    ],
+}
+```
+#### 4 **Adicionar novo paciente**
+```http
+POST /api/pacientes/
+```
+📌 **Corpo da requisição:**
+```json
+{
+    "nome": "Mario",
+    "cpf": "48704355889",
+    "celular": "11984325789"
+}
+```
+---
+#### 5 **Atualizar paciente**
+```http
+POST /api/pacientes/{id_paciente}
+```
+📌 **Corpo da requisição:**
+```json
+{
+    "nome": "Carlos Mendes",
+    "celular": "11987654321"
+}
+```
+---
 
-## License
+### 📌 **Consultas**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### 6 **Agendar uma nova consulta**
+```http
+POST /api/medicos/consulta
+```
+📌 **Corpo da requisição:**
+```json
+{
+    "medico_id": 1,
+    "paciente_id": 3,
+    "data": "2025-02-15 14:00:00"
+}
+```
+✅ **Retorno esperado:**
+```json
+{
+    "medico_id": 18,
+    "paciente_id": 12,
+    "data": "2025-02-05 12:19:58",
+    "updated_at": "2025-02-01T19:07:17.000000Z",
+    "created_at": "2025-02-01T19:07:17.000000Z",
+    "id": 19
+}
+```
+
+---
+
+## 🚀 Conclusão
+Essa API fornece **gestão completa** de médicos, pacientes e consultas, permitindo operações seguras e eficientes. **Somente usuários autenticados** podem acessar os recursos protegidos.
+
+✅ **Principais funcionalidades:**
+- Autenticação JWT 🔐
+- CRUD de médicos e pacientes 📋
+- Agendamento de consultas 📆
+- Filtros avançados 🔎
+
+---
+

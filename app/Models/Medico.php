@@ -10,7 +10,7 @@ class Medico extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $filallable = [
+    protected $fillable = [
         'nome',
         'especialidade',
         'cidade_id',
@@ -25,4 +25,17 @@ class Medico extends Model
     {
         return $this->hasMany(Consulta::class);
     }
+
+    //scope
+    public function scopeFilter($query, $request)
+    {
+        if ($request->filled('nome')) {
+            $nome = trim($request->nome);
+            $nomeSemPrefixo = preg_replace('/^(Dr\.?|Dra\.?)\s+/i', '', $nome);
+            $query->whereRaw("REPLACE(REPLACE(nome, 'Dr. ', ''), 'Dra. ', '') LIKE ?", ["%{$nomeSemPrefixo}%"]);
+        }
+
+        return $query;
+    }
+
 }

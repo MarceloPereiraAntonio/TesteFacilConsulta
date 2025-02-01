@@ -16,4 +16,17 @@ class Paciente extends Model
     {
         return $this->hasMany(Consulta::class);
     }
+
+    //scope
+    public function scopeFilter($query, $request)
+    {
+        if ($request->boolean('apenas-agendadas')) {
+            $query->where('data', '>', now());
+        }
+
+        if(filled($request->nome)){
+            $query->where('nome', 'LIKE', "%{$request->nome}%");
+        }
+    }
+
 }

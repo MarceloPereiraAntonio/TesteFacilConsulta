@@ -10,7 +10,9 @@ class CidadeController extends Controller
 {
     public function index(Request $request)
     {
-        $cidades = Cidade::filter($request)->orderBy('nome', 'asc')->paginate();
+        $cidades = Cidade::filter($request)
+            ->orderBy('nome', 'asc')
+            ->paginate();
         if($cidades->isEmpty()){
             return response()->json([], Response::HTTP_NO_CONTENT);
         }
