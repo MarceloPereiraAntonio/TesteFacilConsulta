@@ -7,8 +7,8 @@ Esta API foi desenvolvida para gerenciar **médicos, pacientes e consultas**. Os
 
 ## 🛠 Requisitos para instalar o projeto
 Você vai precisa instalar o docker e o composer, caso ainda não tenha siga o passo a passo no site 
-Docker -> https://docs.docker.com/engine/install/
-Composer -> https://getcomposer.org/
+- Docker -> https://docs.docker.com/engine/install/
+- Composer -> https://getcomposer.org/
 ---
 
 ## 🔧 Configuração do Projeto
