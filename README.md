@@ -41,7 +41,15 @@ Você vai precisa instalar o docker e o composer, caso ainda não tenha siga o p
     ```sh
     alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)' 
     ```
-6. Após a instalação do projeto e com todos os containers em operação rode as **migrations e seeders**:
+6. Gere a chave do app usando o seguinte comando:
+   ```sh
+   sail artisan key:generate
+   ```
+7. Gere a chave secreta do JWT para seu app usando o seguinte comando:
+   ```sh
+   sail artisan jwt:secret
+   ```
+8. Após a instalação do projeto e com todos os containers em operação rode as **migrations e seeders**:
    ```sh
    sail artisan migrate --seed
    - O comando acima irá popular a base de dados.
