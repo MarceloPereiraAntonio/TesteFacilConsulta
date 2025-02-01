@@ -6,14 +6,15 @@ Esta API foi desenvolvida para gerenciar **médicos, pacientes e consultas**. Os
 ---
 
 ## 🛠 Requisitos para instalar o projeto
-Você vai precisa instalar o docker, e caso ainda não tenha siga o passo a passo no site https://docs.docker.com/engine/install/
-
+Você vai precisa instalar o docker e o composer, caso ainda não tenha siga o passo a passo no site 
+Docker -> https://docs.docker.com/engine/install/
+Composer -> https://getcomposer.org/
 ---
 
 ## 🔧 Configuração do Projeto
 1. Clone o repositório:
    ```sh
-   https://github.com/MarceloPereiraAntonio/TesteFacilConsulta.git
+   git clone https://github.com/MarceloPereiraAntonio/TesteFacilConsulta.git
    cd seu-repositorio
    ```
 2. Configure o arquivo **.env**:
@@ -21,16 +22,20 @@ Você vai precisa instalar o docker, e caso ainda não tenha siga o passo a pass
    cp .env.example .env
    ```
    - Configure as variáveis de banco de dados (`DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)
-3. Rode o seguinte comando:
+3. Rode o composer usando o seguinte comando:
+   ```sh
+   composer install
+   ```
+4. Rode o seguinte comando:
    ```sh
    ./vendor/bin/sail up -d
-   - Isso vai iniciar a instalação de todas as dependências para o projeto funcionar. 
+   - Isso vai iniciar a instalação dos containers para o projeto funcionar. 
    ```
-4. Para facilitar os comandos do **Laravel Sail** rode o seguinte comando.
+5. Para facilitar os comandos do **Laravel Sail** rode o seguinte comando.
     ```sh
     alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)' 
     ```
-5. Após a instalação do projeto e com todos os containers em operação rode as **migrations e seeders**:
+6. Após a instalação do projeto e com todos os containers em operação rode as **migrations e seeders**:
    ```sh
    sail artisan migrate --seed
    - O comando acima irá popular a base de dados.
