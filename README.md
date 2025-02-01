@@ -81,7 +81,7 @@ POST /api/login
 
 ### 📌 **Cidades**
 
-#### 1️⃣ **Listar**
+#### 1️ **Listar**
 ```http
 GET /api/cidades
 ```
