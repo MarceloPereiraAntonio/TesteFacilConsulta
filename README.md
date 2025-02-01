@@ -3,6 +3,12 @@
 ## 📌 Introdução
 Esta API foi desenvolvida para gerenciar **médicos, pacientes e consultas**. Os usuários podem cadastrar médicos e pacientes, agendar consultas e listar informações de forma organizada. Apenas **usuários autenticados** podem acessar os recursos protegidos.
 
+✅ **Principais funcionalidades:**
+- Autenticação JWT 🔐
+- CRUD de médicos e pacientes 📋
+- Agendamento de consultas 📆
+- Filtros avançados 🔎
+
 ---
 
 ## 🛠 Requisitos para instalar o projeto
@@ -212,14 +218,4 @@ POST /api/medicos/consulta
 
 ---
 
-## 🚀 Conclusão
-Essa API fornece **gestão completa** de médicos, pacientes e consultas, permitindo operações seguras e eficientes. **Somente usuários autenticados** podem acessar os recursos protegidos.
-
-✅ **Principais funcionalidades:**
-- Autenticação JWT 🔐
-- CRUD de médicos e pacientes 📋
-- Agendamento de consultas 📆
-- Filtros avançados 🔎
-
----
 
