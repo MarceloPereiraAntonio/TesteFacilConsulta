@@ -81,7 +81,7 @@ POST /api/login
 
 ### 📌 **Cidades**
 
-#### 1️ **Listar**
+#### 1 **Listar**
 ```http
 GET /api/cidades
 ```
@@ -107,7 +107,7 @@ GET /api/cidades/{id_cidade}/medicos
 
 ## 📌 **Médicos**
 
-#### 2 **Adicionar novo médico**
+#### 4 **Adicionar novo médico**
 ```http
 POST /api/medicos
 ```
@@ -119,7 +119,7 @@ POST /api/medicos
     "data": "2025-02-15 14:00:00"
 }
 ```
-#### 2 **Agendar consulta**
+#### 5 **Agendar consulta**
 ```http
 POST /api/medicos/consulta
 ```
@@ -136,7 +136,7 @@ POST /api/medicos/consulta
 
 ### 📌 **Pacientes**
 
-#### 3 **Listar pacientes do médico**
+#### 6 **Listar pacientes do médico**
 ```http
 GET /api/medicos/{id_medico}/pacientes
 ```
@@ -158,7 +158,7 @@ GET /api/medicos/{id_medico}/pacientes
     ],
 }
 ```
-#### 4 **Adicionar novo paciente**
+#### 7 **Adicionar novo paciente**
 ```http
 POST /api/pacientes/
 ```
@@ -171,7 +171,7 @@ POST /api/pacientes/
 }
 ```
 ---
-#### 5 **Atualizar paciente**
+#### 8 **Atualizar paciente**
 ```http
 POST /api/pacientes/{id_paciente}
 ```
@@ -186,7 +186,7 @@ POST /api/pacientes/{id_paciente}
 
 ### 📌 **Consultas**
 
-#### 6 **Agendar uma nova consulta**
+#### 9 **Agendar uma nova consulta**
 ```http
 POST /api/medicos/consulta
 ```
