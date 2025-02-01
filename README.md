@@ -46,7 +46,7 @@ Você vai precisa instalar o docker e o composer, caso ainda não tenha siga o p
 ## 🔐 Autenticação
 A API usa **JWT (JSON Web Token)** para autenticação.
 Após ter rodado as **migrations e seeders** você terá a seu dispor um usuário de teste que será ultilizado para obter seu **token JWT**
-Esses são os dados do seu usuário:
+- Esses são os dados do seu usuário:
 ```json
 {
     "name": "Test User",
